@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hope Ogungbemi | AI Automation and n8n Portfolio</title>
+  <meta name="description" content="AI automation workflows built with n8n covering enterprise operations, agentic pipelines, RAG systems, and business process automation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fafdfb;
+      --bg-c:     #f2f9f7;
+      --bg-c2:    #e6f4f1;
+      --border:   #d0ebe5;
+      --border-d: #a8d5cc;
+
+      --teal:    #0d9488;
+      --teal-lt: #f0fdfa;
+      --teal-md: #99f6e4;
+      --cyan:    #0891b2;
+      --cyan-lt: #ecfeff;
+      --amber:   #b45309;
+      --amber-lt:#fffbeb;
+      --coral:   #be123c;
+      --coral-lt:#fff1f4;
+      --purple:  #6d28d9;
+      --purple-lt:#f5f3ff;
+
+      --text:    #134e4a;
+      --text-2:  #4b7a74;
+      --text-3:  #8fb5af;
+
+      --grad:    linear-gradient(135deg, #0d9488, #0891b2);
+      --grad-w:  linear-gradient(135deg, #0d9488, #b45309);
+
+      --nav-h: 64px;
+      --r:     10px;
+      --r-lg:  16px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; overflow-x: hidden; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-c); }
+    ::-webkit-scrollbar-thumb { background: var(--border-d); border-radius: 3px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h); display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(20px,6vw,80px);
+      background: rgba(250,253,251,0); border-bottom: 1px solid transparent;
+      transition: background .3s, border-color .3s, backdrop-filter .3s;
+    }
+    nav.scrolled { background: rgba(250,253,251,0.93); border-bottom-color: var(--border); backdrop-filter: blur(14px); }
+
+    .nav-left { display: flex; align-items: center; gap: 20px; }
+    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; text-decoration: none; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-back { font-size: .78rem; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); transition: color .2s, border-color .2s; }
+    .nav-back:hover { color: var(--teal); border-color: var(--teal); }
+
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { font-size: .82rem; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 5px 12px; border-radius: 7px; transition: color .2s, background .2s; }
+    .nav-links a:hover { color: var(--text); background: var(--bg-c); }
+    .nav-links a.active { color: var(--teal); }
+
+    .nav-cta { font-size: .82rem; font-weight: 700; color: #fff; background: var(--grad); padding: 7px 18px; border-radius: 8px; text-decoration: none; transition: opacity .2s, transform .2s; }
+    .nav-cta:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: calc(var(--nav-h) + 60px) clamp(20px,8vw,120px) 80px;
+      position: relative; overflow: hidden;
+    }
+    .blobs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .12; }
+    .b1 { width: 500px; height: 500px; background: #0d9488; top: -120px; right: -60px; }
+    .b2 { width: 300px; height: 300px; background: #0891b2; bottom: 0; left: -80px; }
+    .b3 { width: 200px; height: 200px; background: #b45309; top: 50%; right: 20%; }
+
+    .hero-content { position: relative; z-index: 1; max-width: 820px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem; font-weight: 600;
+      color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero-eyebrow::before { content: '//'; color: var(--text-3); }
+
+    .n8n-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--teal-lt); color: var(--teal);
+      border: 1px solid var(--teal-md); border-radius: 100px;
+      font-size: .74rem; font-weight: 700; padding: 5px 14px; margin-bottom: 28px;
+    }
+    .n8n-badge-icon {
+      width: 18px; height: 18px; border-radius: 4px;
+      background: var(--grad); display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; font-weight: 800; color: #fff;
+    }
+
+    .avatar-wrap { width: 64px; height: 64px; border-radius: 15px; background: var(--grad); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(13,148,136,.22); }
+    .avatar-initials { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.25rem; color: #fff; }
+
+    h1.hero-name { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.2rem,5.5vw,4rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; margin-bottom: 12px; }
+    h1.hero-name span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .hero-sub { font-family: 'JetBrains Mono', monospace; font-size: clamp(.8rem,1.6vw,.95rem); color: var(--text-2); margin-bottom: 20px; min-height: 1.5em; }
+    .cursor { display: inline-block; width: 2px; height: .85em; background: var(--teal); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50%{opacity:0} }
+
+    .hero-bio { font-size: 1.02rem; color: var(--text-2); line-height: 1.78; max-width: 640px; margin-bottom: 32px; }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+    .btn-p { display: inline-flex; align-items: center; gap: 7px; background: var(--grad); color: #fff; font-weight: 700; font-size: .88rem; padding: 12px 26px; border-radius: var(--r); text-decoration: none; border: none; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+    .btn-p:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(13,148,136,.28); }
+    .btn-o { display: inline-flex; align-items: center; gap: 7px; background: transparent; color: var(--text); font-weight: 600; font-size: .88rem; padding: 11px 24px; border-radius: var(--r); text-decoration: none; border: 1.5px solid var(--border-d); transition: border-color .2s, background .2s, transform .2s; }
+    .btn-o:hover { border-color: var(--teal); background: var(--teal-lt); transform: translateY(-2px); }
+
+    /* STATS ROW */
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 32px; }
+    .stat { display: flex; flex-direction: column; gap: 2px; }
+    .stat-num { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.8rem; letter-spacing: -.04em; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-lbl { font-size: .72rem; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* SECTION */
+    section { padding: 88px clamp(20px,8vw,120px); }
+    .stag { display: inline-flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: .7rem; font-weight: 600; color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+    .stag::before { content: '//'; color: var(--text-3); }
+    .stitle { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem,3.8vw,2.5rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.12; margin-bottom: 8px; }
+    .ssub { font-size: .98rem; color: var(--text-2); max-width: 560px; margin-bottom: 48px; line-height: 1.7; }
+    .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border-d), transparent); }
+
+    .fu { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+    .fu.vis { opacity: 1; transform: translateY(0); }
+    .fu:nth-child(2){transition-delay:.07s} .fu:nth-child(3){transition-delay:.14s} .fu:nth-child(4){transition-delay:.21s}
+
+    /* SECTION INTRO CARD */
+    .section-intro {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--bg-c); border: 1.5px solid var(--border);
+      border-radius: var(--r-lg); padding: 22px 26px; margin-bottom: 36px;
+    }
+    .si-bar { width: 4px; border-radius: 2px; align-self: stretch; flex-shrink: 0; }
+    .si-body h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+    .si-body p { font-size: .86rem; color: var(--text-2); line-height: 1.65; }
+
+    /* WORKFLOW CARDS */
+    .wf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
+
+    .wf-card {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: var(--r-lg); padding: 24px;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .wf-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--wc-grad, var(--grad));
+      transform: scaleX(0); transform-origin: left; transition: transform .3s;
+    }
+    .wf-card:hover { border-color: var(--border-d); transform: translateY(-4px); box-shadow: 0 14px 36px rgba(13,148,136,.1); }
+    .wf-card:hover::before { transform: scaleX(1); }
+
+    .wf-card.featured { grid-column: span 2; }
+
+    /* WORKFLOW HEADER */
+    .wf-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+    .wf-ic { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: .65rem; color: #fff; text-align: center; line-height: 1.25; }
+    .ic-t { background: var(--teal); }
+    .ic-c { background: var(--cyan); }
+    .ic-a { background: var(--amber); }
+    .ic-r { background: var(--coral); }
+    .ic-p { background: var(--purple); }
+    .ic-m { background: var(--grad); }
+
+    .wf-nodes-count { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--text-3); padding: 4px 9px; border-radius: 6px; background: var(--bg-c); border: 1px solid var(--border); }
+
+    .wf-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.02rem; margin-bottom: 8px; line-height: 1.3; }
+    .wf-desc { font-size: .85rem; color: var(--text-2); line-height: 1.65; flex: 1; margin-bottom: 16px; }
+
+    /* FLOW VISUALIZATION */
+    .flow-vis {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+      background: var(--bg-c); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 12px; margin-bottom: 14px;
+      font-family: 'JetBrains Mono', monospace; font-size: .64rem;
+    }
+    .fn { padding: 2px 8px; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+    .fn-trigger { background: var(--amber-lt); color: var(--amber); border: 1px solid #fde68a; }
+    .fn-ai     { background: var(--purple-lt); color: var(--purple); border: 1px solid #ddd6fe; }
+    .fn-action { background: var(--teal-lt); color: var(--teal); border: 1px solid var(--teal-md); }
+    .fn-route  { background: var(--cyan-lt); color: var(--cyan); border: 1px solid #a5f3fc; }
+    .fn-output { background: var(--coral-lt); color: var(--coral); border: 1px solid #fda4af; }
+    .fa { color: var(--text-3); }
+
+    /* HIGHLIGHTS */
+    .wf-hi { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .wh { display: flex; align-items: flex-start; gap: 7px; font-size: .78rem; color: var(--text-2); line-height: 1.55; }
+    .wh-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--wc-ac, var(--teal)); flex-shrink: 0; margin-top: 5px; }
+
+    /* INTEGRATION BADGES */
+    .integrations { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .int-badge {
+      display: flex; align-items: center; gap: 4px;
+      font-size: .65rem; font-weight: 600; font-family: 'JetBrains Mono', monospace;
+      padding: 3px 8px; border-radius: 5px;
+      background: var(--bg-c); color: var(--text-2); border: 1px solid var(--border);
+    }
+    .int-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+    .wf-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
+    .ws { font-size: .65rem; font-family: 'JetBrains Mono', monospace; padding: 2px 7px; border-radius: 4px; background: var(--bg); color: var(--text-3); border: 1px solid var(--border); }
+
+    /* SKILLS SECTION */
+    #skills { background: var(--bg-c); }
+    .sk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 18px; }
+    .sk-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 24px; transition: border-color .2s, transform .2s; }
+    .sk-card:hover { border-color: var(--border-d); transform: translateY(-3px); }
+    .sk-card.sa { border-top: 3px solid var(--teal); }
+    .sk-card.sb { border-top: 3px solid var(--cyan); }
+    .sk-card.sc { border-top: 3px solid var(--amber); }
+    .sk-card.sd { border-top: 3px solid var(--purple); }
+
+    .sk-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .sk-ic { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: .62rem; color: #fff; }
+    .sk-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: .88rem; }
+    .sk-sub { font-size: .68rem; color: var(--text-3); font-family: 'JetBrains Mono', monospace; }
+    .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { font-size: .68rem; font-family: 'JetBrains Mono', monospace; padding: 3px 8px; border-radius: 4px; background: var(--tag-bg, var(--teal-lt)); color: var(--tag-c, var(--teal)); font-weight: 500; }
+    .sa .tag { --tag-bg: var(--teal-lt); --tag-c: var(--teal); }
+    .sb .tag { --tag-bg: var(--cyan-lt); --tag-c: var(--cyan); }
+    .sc .tag { --tag-bg: var(--amber-lt); --tag-c: var(--amber); }
+    .sd .tag { --tag-bg: var(--purple-lt); --tag-c: var(--purple); }
+
+    /* CONTACT */
+    #contact { background: var(--bg-c); text-align: center; }
+    .contact-inner { max-width: 580px; margin: 0 auto; }
+    .contact-inner .stitle { text-align: center; margin-bottom: 12px; }
+    .contact-inner > p { font-size: .98rem; color: var(--text-2); line-height: 1.75; margin-bottom: 34px; }
+    .contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .cl { display: flex; align-items: center; gap: 7px; font-size: .84rem; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 10px 20px; border-radius: var(--r); border: 1.5px solid var(--border); background: var(--bg); transition: border-color .2s, color .2s, transform .2s, box-shadow .2s; }
+    .cl:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(13,148,136,.1); }
+    .cl.main:hover  { border-color: var(--teal); color: var(--teal); }
+    .cl.gh:hover    { border-color: var(--cyan); color: var(--cyan); }
+    .cl.email:hover { border-color: var(--amber); color: var(--amber); }
+
+    footer { border-top: 1px solid var(--border); padding: 24px clamp(20px,8vw,120px); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    footer p { font-size: .74rem; color: var(--text-3); }
+    .f-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: .84rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    @media (max-width: 800px) {
+      .wf-card.featured { grid-column: span 1; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 64px clamp(20px,5vw,40px); }
+      .hero-stats { gap: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-left">
+    <a href="../index.html" class="nav-back">&larr; Main Portfolio</a>
+    <a href="#hero" class="nav-logo">n8n.automation</a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#enterprise">Enterprise</a></li>
+    <li><a href="#business">Business</a></li>
+    <li><a href="#content">AI Content</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://github.com/lope-dev" target="_blank" rel="noopener" class="nav-cta">GitHub &nearr;</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blobs">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">AI Automation Portfolio</div>
+    <div class="n8n-badge">
+      <div class="n8n-badge-icon">n8</div>
+      Built with n8n · Agentic Workflows · Production-Ready
+    </div>
+    <div class="avatar-wrap"><span class="avatar-initials">HO</span></div>
+    <h1 class="hero-name">Hope <span>Ogungbemi</span></h1>
+    <p class="hero-sub" id="heroTyped"></p>
+    <p class="hero-bio">
+      Six-plus years building cloud infrastructure and AI systems that production teams depend on. At Foundation Medicine I architect RAG platforms serving 50,000+ clinical genomic documents and design multi-agent LLM systems on AWS Bedrock and LangGraph. On the infrastructure side, I own the full delivery stack — three-tier application architecture via Terraform and CloudFormation, containerized services through Docker, ECR, and ECS, automated CI/CD pipelines on GitHub Actions and Jenkins, VPC networking and security controls, CloudWatch and Logz.io observability, and cost visibility through AWS myApplication so engineering teams know exactly what their workloads cost.
+    </p>
+    <p class="hero-bio" style="margin-top:-16px">
+      On top of that foundation, I build production-ready automation workflows with n8n, Zapier, and Amazon Bedrock — covering agentic AI pipelines, RAG-powered document intelligence, multi-agent orchestration, and end-to-end business process automation. Every workflow here has real nodes, real integrations, and solves a real problem. Based in Maryland, pursuing an M.S. in Data Science and AI.
+    </p>
+    <div class="hero-actions">
+      <a href="#enterprise" class="btn-p">View Workflows</a>
+      <a href="../index.html" class="btn-o">Full Portfolio</a>
+      <a href="https://github.com/lope-dev" target="_blank" rel="noopener" class="btn-o">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" data-target="11">0</span><span class="stat-lbl">Workflows Built</span></div>
+      <div class="stat"><span class="stat-num" data-target="164">0</span><span class="stat-lbl">Total Nodes</span></div>
+      <div class="stat"><span class="stat-num" data-target="15">0</span><span class="stat-lbl">Integrations</span></div>
+      <div class="stat"><span class="stat-num" data-target="6">0</span><span class="stat-lbl">Years Cloud Exp.</span></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SECTION 1: ENTERPRISE -->
+<section id="enterprise">
+  <div class="stag">Section 01</div>
+  <h2 class="stitle">Enterprise and Operations Automation</h2>
+  <p class="ssub">Agentic workflows built for the kind of work that happens at scale inside organizations: security triage, document intelligence, meeting operations, and inquiry routing.</p>
+
+  <div class="section-intro fu">
+    <div class="si-bar" style="background:var(--teal)"></div>
+    <div class="si-body">
+      <h3>Where this work lives</h3>
+      <p>These workflows address the operational patterns common in regulated enterprise environments like Foundation Medicine and enterprise consulting work at AHEAD: security backlog management, clinical document Q&A, communications routing, and meeting intelligence. The integrations span Jira, Google Workspace, PostgreSQL, and OpenAI, connected through agentic reasoning layers that make decisions rather than just passing data.</p>
+    </div>
+  </div>
+
+  <div class="wf-grid">
+
+    <!-- Jira Triage -->
+    <div class="wf-card featured fu" style="--wc-grad: linear-gradient(90deg,var(--teal),var(--cyan)); --wc-ac: var(--teal);">
+      <div class="wf-top">
+        <div class="wf-ic ic-t">JIRA<br>AGT</div>
+        <span class="wf-nodes-count">17 nodes</span>
+      </div>
+      <h3 class="wf-title">Agentic Jira Security Triage with LLM Summary</h3>
+      <p class="wf-desc">
+        A fully automated security triage pipeline that eliminated manual write-ups across the entire Jira security queue. A cron trigger fires on schedule, pulls open Jira issues, splits them into batches, extracts the service name, looks up the responsible manager in Google Sheets, routes by priority, calculates the remediation date, reassigns the ticket, changes status to Triage, and then hands off to an LLM agent that writes a professional summary comment and posts it directly back to the Jira issue. Zero human steps required after deployment.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Cron Trigger</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Fetch Jira Issues</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Batch Split</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Manager Lookup</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Priority Check</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Assign + Remediation Date</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">LLM Agent Summary</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Post Jira Comment</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot"></div><span>Cron-scheduled ingestion with batch processing so large Jira queues never time out</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>Google Sheets used as a dynamic manager lookup table, no hardcoded assignments</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>LLM agent writes professional triage summaries from raw ticket data and posts them as Jira comments automatically</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>Remediation date calculation logic runs per-issue based on priority level before status change</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Jira</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Google Sheets</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--amber)"></span>Cron Scheduler</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">n8n Agent</span><span class="ws">Jira API</span><span class="ws">Google Sheets</span>
+        <span class="ws">OpenAI</span><span class="ws">Cron</span><span class="ws">Batch Processing</span>
+      </div>
+    </div>
+
+    <!-- Invoice RAG -->
+    <div class="wf-card fu" style="--wc-grad: linear-gradient(90deg,var(--cyan),var(--teal)); --wc-ac: var(--cyan);">
+      <div class="wf-top">
+        <div class="wf-ic ic-c">RAG<br>INV</div>
+        <span class="wf-nodes-count">10 nodes</span>
+      </div>
+      <h3 class="wf-title">Invoice Agentic Workflow with RAG and PGVector</h3>
+      <p class="wf-desc">
+        RAG-powered document intelligence pipeline for invoice processing. Google Drive triggers automatic ingestion when a new invoice lands. Files are downloaded, chunked, embedded with OpenAI embeddings, and stored in a PostgreSQL PGVector store. A chat-triggered AI agent with Postgres-backed conversation memory then answers natural language questions against the invoice corpus in real time.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Drive Trigger</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Download File</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">Chunk + Embed</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">PGVector Store</span><span class="fa">|</span>
+        <span class="fn fn-trigger">Chat Trigger</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">AI Agent + Memory</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Answer</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--cyan)"></div><span>Dual trigger pattern: Drive trigger for ingestion, chat trigger for retrieval, running as separate parallel paths</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--cyan)"></div><span>PostgreSQL PGVector for vector storage means retrieval lives in the same DB as transactional data</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--cyan)"></div><span>Postgres-backed chat memory persists conversation context across sessions, not just in-memory</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--cyan)"></span>Google Drive</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>PostgreSQL / PGVector</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">RAG</span><span class="ws">PGVector</span><span class="ws">OpenAI Embeddings</span>
+        <span class="ws">n8n Agent</span><span class="ws">Google Drive</span>
+      </div>
+    </div>
+
+    <!-- Email Routing -->
+    <div class="wf-card fu" style="--wc-grad: linear-gradient(90deg,var(--amber),var(--teal)); --wc-ac: var(--amber);">
+      <div class="wf-top">
+        <div class="wf-ic ic-a">EMAIL<br>AI</div>
+        <span class="wf-nodes-count">12 nodes</span>
+      </div>
+      <h3 class="wf-title">AI Email Inquiry Processing and Routing with Gemini</h3>
+      <p class="wf-desc">
+        Gmail-triggered workflow that replaces manual inbox triage. Incoming inquiries hit a Gemini AI agent that classifies intent, checks availability via HTTP request, and conditionally routes to the correct response path: booking confirmation, availability check reply, or hold-for-data wait state. No human reads the email before the right action fires.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Gmail Trigger</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">Gemini AI Agent</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Availability Check</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Route by Intent</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Auto-Reply</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--amber)"></div><span>Google Gemini as the reasoning model, demonstrating multi-LLM flexibility beyond OpenAI</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--amber)"></div><span>Wait node handles async availability lookups before committing to a response path</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--amber)"></div><span>HTTP request tool lets the agent pull live data mid-reasoning before deciding output</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--amber)"></span>Gmail</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>Google Gemini</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>HTTP APIs</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">Gemini AI</span><span class="ws">Gmail API</span>
+        <span class="ws">Conditional Routing</span><span class="ws">HTTP Tools</span>
+      </div>
+    </div>
+
+    <!-- Meeting Summarizer -->
+    <div class="wf-card fu" style="--wc-grad: linear-gradient(90deg,var(--teal),var(--amber)); --wc-ac: var(--teal);">
+      <div class="wf-top">
+        <div class="wf-ic ic-t">MTG<br>SUM</div>
+        <span class="wf-nodes-count">5 nodes</span>
+      </div>
+      <h3 class="wf-title">Meeting Summarizer with Whisper and Google Docs</h3>
+      <p class="wf-desc">
+        Simple but high-impact pipeline: submit a meeting recording via form, OpenAI Whisper transcribes the audio, a second OpenAI call generates a structured summary, and the output is written directly into a new Google Doc. Removes the entire post-meeting notes workflow for teams.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Form Submit</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">Whisper Transcribe</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">LLM Summarize</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Google Doc</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot"></div><span>Two-model chain: Whisper for speech-to-text, then GPT for structured summary generation</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>Output lands directly in Google Docs, ready to share with the team immediately</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>Five nodes, zero maintenance, high daily value for any team running regular meetings</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI Whisper</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Google Docs</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">Whisper STT</span><span class="ws">GPT Summary</span><span class="ws">Google Docs</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SECTION 2: BUSINESS -->
+<section id="business">
+  <div class="stag">Section 02</div>
+  <h2 class="stitle">Business Process Automation</h2>
+  <p class="ssub">End-to-end automation for real business operations: lead recovery, appointment booking, hiring pipelines, scheduling, and e-commerce AI assistants. Built for clients and independent consulting projects.</p>
+
+  <div class="section-intro fu">
+    <div class="si-bar" style="background:var(--amber)"></div>
+    <div class="si-body">
+      <h3>Consulting and client automation work</h3>
+      <p>These workflows were built for specific business problems across different verticals, from home services to healthcare to retail. They demonstrate the ability to design automation that non-technical end users can operate, integrating WhatsApp, SMS, Google Sheets, Airtable, and AI reasoning layers that adapt to real-world edge cases rather than just happy paths.</p>
+    </div>
+  </div>
+
+  <div class="wf-grid">
+
+    <!-- Contractor Missed Call -->
+    <div class="wf-card featured fu" style="--wc-grad: linear-gradient(90deg,var(--coral),var(--amber)); --wc-ac: var(--coral);">
+      <div class="wf-top">
+        <div class="wf-ic ic-r">LEAD<br>RCV</div>
+        <span class="wf-nodes-count">20 nodes</span>
+      </div>
+      <h3 class="wf-title">Contractor Missed Call Lead Recovery System</h3>
+      <p class="wf-desc">
+        Most contractors lose leads the moment a call goes unanswered. This system catches every one. A missed call trigger fires instantly, logs the lead in Airtable, sends an immediate SMS text-back within seconds, then runs a structured follow-up sequence: waits 10 minutes, checks if the lead replied, qualifies them with AI if they did, sends a booking link, and alerts the contractor by SMS. If no reply, it escalates through 2-hour and 24-hour follow-ups before marking the lead cold. After a job completes, it automatically sends a review request. A monthly re-engagement scheduler loops back through past cold leads.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Missed Call</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Log in Airtable</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Instant SMS</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Wait + Check Reply</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">AI Qualify</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Book / Follow-Up / Cold</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>Three trigger types: missed call, job completion, and monthly re-engagement schedule, each running its own path</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>Airtable as the lead CRM with real-time status updates at every stage of the funnel</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>AI lead qualification decides whether to send a booking link or continue nurturing based on reply content</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>Full lifecycle from first missed call to job completion review request and long-term re-engagement</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--coral)"></span>Twilio SMS</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Airtable</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--amber)"></span>Scheduler</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">Twilio</span><span class="ws">Airtable</span><span class="ws">OpenAI</span>
+        <span class="ws">Multi-Trigger</span><span class="ws">Timed Wait</span><span class="ws">AI Qualification</span>
+      </div>
+    </div>
+
+    <!-- Resume Screening -->
+    <div class="wf-card fu" style="--wc-grad: linear-gradient(90deg,var(--purple),var(--cyan)); --wc-ac: var(--purple);">
+      <div class="wf-top">
+        <div class="wf-ic ic-p">CV<br>AI</div>
+        <span class="wf-nodes-count">14 nodes</span>
+      </div>
+      <h3 class="wf-title">AI Resume Screening and Candidate Routing Pipeline</h3>
+      <p class="wf-desc">
+        End-to-end hiring automation from application to communication. Candidates submit via form, the workflow extracts CV text, prepares a structured OpenAI evaluation request, scores the candidate, routes to Strong Yes, Maybe, or Decline, sends the appropriate personalised email, logs every result to Google Sheets, and conditionally notifies the hiring manager only for candidates that clear the threshold.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Application Form</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Extract CV</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">OpenAI Evaluate</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Route by Score</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Email + Log</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Three-way routing: Strong Yes, Maybe, and Decline, each with a distinct personalised email response</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Hiring manager notification is conditional: only fires above a configurable score threshold</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Google Sheets log gives recruiters a full audit trail of every application and its AI score</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Google Sheets</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--amber)"></span>Gmail</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">OpenAI</span><span class="ws">Gmail</span>
+        <span class="ws">Google Sheets</span><span class="ws">CV Parsing</span>
+      </div>
+    </div>
+
+    <!-- Salon Booking -->
+    <div class="wf-card fu" style="--wc-grad: linear-gradient(90deg,var(--teal),var(--purple)); --wc-ac: var(--teal);">
+      <div class="wf-top">
+        <div class="wf-ic ic-t">SALON<br>BOT</div>
+        <span class="wf-nodes-count">13 nodes</span>
+      </div>
+      <h3 class="wf-title">AI Salon Booking via WhatsApp and Google Sheets</h3>
+      <p class="wf-desc">
+        Conversational appointment booking system for a salon, running entirely over WhatsApp. A Twilio trigger catches incoming messages, an AI agent with buffer memory handles the full booking conversation, checking services, suggesting stylists, confirming opening hours, and writing bookings to Google Sheets.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">WhatsApp Message</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">AI Agent + Memory</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Check Sheets Tools</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">WhatsApp Reply</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot"></div><span>Six Google Sheets tool nodes give the agent structured access to services, stylists, hours, and booking records</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>Buffer memory keeps conversation context across multi-turn WhatsApp exchanges</span></div>
+        <div class="wh"><div class="wh-dot"></div><span>End users interact entirely in natural language with no app download or form required</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>WhatsApp / Twilio</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Google Sheets</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">Twilio</span><span class="ws">WhatsApp</span>
+        <span class="ws">n8n Agent</span><span class="ws">Google Sheets</span>
+      </div>
+    </div>
+
+    <!-- GLOW WELL -->
+    <div class="wf-card fu" style="--wc-grad: linear-gradient(90deg,var(--amber),var(--coral)); --wc-ac: var(--amber);">
+      <div class="wf-top">
+        <div class="wf-ic ic-a">GLOW<br>AI</div>
+        <span class="wf-nodes-count">17 nodes</span>
+      </div>
+      <h3 class="wf-title">GLOW WELL E-Commerce AI Customer Assistant</h3>
+      <p class="wf-desc">
+        AI-powered customer service assistant for a wellness e-commerce brand. Webhook and form triggers feed into an OpenAI agent with conversation memory that can check product info, order status, and stock levels in real time via Google Sheets tools, then respond over the appropriate channel with conditional branching for different customer scenarios.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Webhook / Form</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">AI Agent + Memory</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Product / Order / Stock</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">If / Branch</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Response</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--amber)"></div><span>Three live data tools: product info, order status, and stock level lookups, all callable mid-conversation</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--amber)"></div><span>Dual trigger support handles both webhook and form-based entry points in a single workflow</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--amber)"></div><span>JavaScript code node handles custom transformation logic between agent output and channel-specific formatting</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Google Sheets</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--amber)"></span>Gmail</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--cyan)"></span>Webhook</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">OpenAI</span><span class="ws">Google Sheets</span>
+        <span class="ws">Gmail</span><span class="ws">Webhook</span><span class="ws">JavaScript</span>
+      </div>
+    </div>
+
+    <!-- Classroom Scheduler -->
+    <div class="wf-card featured fu" style="--wc-grad: linear-gradient(90deg,var(--purple),var(--teal)); --wc-ac: var(--purple);">
+      <div class="wf-top">
+        <div class="wf-ic ic-p">MULTI<br>AGT</div>
+        <span class="wf-nodes-count">34 nodes</span>
+      </div>
+      <h3 class="wf-title">Multi-Agent Classroom Schedule Optimizer with GPT-4o and Google Calendar</h3>
+      <p class="wf-desc">
+        The most architecturally complex workflow in this portfolio. A scheduled trigger kicks off a four-agent pipeline: a Master Orchestrator coordinates three specialized agents, each with their own GPT-4o model and structured output parser. The Resource Analysis Agent examines room and instructor availability. The Operations Agent identifies scheduling conflicts. The Optimization Agent proposes resolutions. Each agent produces structured JSON output, results are merged, conflict severity is scored, auto-resolution is attempted where possible, and then critical conflicts trigger Slack alerts, while recommendations are emailed as a full report. Google Calendar is used as a live tool throughout.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Schedule Trigger</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">Master Orchestrator</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">Resource Agent</span><span class="fa">|</span>
+        <span class="fn fn-ai">Operations Agent</span><span class="fa">|</span>
+        <span class="fn fn-ai">Optimization Agent</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Conflict Score</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Slack + Email Report</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Four specialized GPT-4o agents each with their own model node and structured output parser for typed JSON responses</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Master Orchestrator agent coordinates agent sequence, handles inter-agent context passing, and makes routing decisions</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Google Calendar Tool node gives agents read/write access to live calendar data mid-reasoning</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>Conflict scoring, auto-resolution attempt, Slack critical alert, and full email report all in one automated run</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--purple)"></div><span>34 nodes, the most complex workflow here, and a direct analogue for any resource scheduling problem in healthcare, logistics, or enterprise operations</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>OpenAI GPT-4o</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>Google Calendar</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--cyan)"></span>Slack</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--amber)"></span>Email</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">Multi-Agent</span><span class="ws">GPT-4o</span>
+        <span class="ws">Structured Output</span><span class="ws">Google Calendar</span>
+        <span class="ws">Slack</span><span class="ws">Conflict Resolution</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SECTION 3: AI CONTENT -->
+<section id="content">
+  <div class="stag">Section 03</div>
+  <h2 class="stitle">AI Content and Media Automation</h2>
+  <p class="ssub">Generative pipelines that turn product data into visual and video content at scale, using OpenAI and Google Gemini together.</p>
+
+  <div class="section-intro fu">
+    <div class="si-bar" style="background:var(--coral)"></div>
+    <div class="si-body">
+      <h3>Multi-model generative pipelines</h3>
+      <p>These workflows combine OpenAI and Google Gemini in multi-model chains to generate product images, UGC-style content, and video prompts from raw product data. They demonstrate practical generative AI orchestration: batch processing, image editing, resolution extraction, and structured data updates, all running without human involvement once triggered.</p>
+    </div>
+  </div>
+
+  <div class="wf-grid">
+
+    <!-- Product Image UGC -->
+    <div class="wf-card featured fu" style="--wc-grad: linear-gradient(90deg,var(--coral),var(--purple)); --wc-ac: var(--coral);">
+      <div class="wf-top">
+        <div class="wf-ic ic-r">UGC<br>AI</div>
+        <span class="wf-nodes-count">22 nodes</span>
+      </div>
+      <h3 class="wf-title">Product Image UGC Generation Pipeline</h3>
+      <p class="wf-desc">
+        Automated content generation pipeline that takes product image URLs and outputs UGC-style images and video prompts without any manual creative work. The workflow loops over product items in batches, fetches each image via HTTP, extracts resolution metadata, runs JavaScript image editing transformations, generates a custom AI prompt via OpenAI, produces a new image via the DALL-E API, generates a video prompt via Gemini, and writes all outputs back to the data table with metadata attached.
+      </p>
+      <div class="flow-vis">
+        <span class="fn fn-trigger">Manual Trigger</span><span class="fa">-&gt;</span>
+        <span class="fn fn-route">Batch Loop</span><span class="fa">-&gt;</span>
+        <span class="fn fn-action">Fetch + Edit Image</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">OpenAI Prompt Gen</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">DALL-E Image</span><span class="fa">-&gt;</span>
+        <span class="fn fn-ai">Gemini Video Prompt</span><span class="fa">-&gt;</span>
+        <span class="fn fn-output">Update Data Table</span>
+      </div>
+      <div class="wf-hi">
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>Dual-model pipeline: OpenAI for image prompt generation and DALL-E for image creation, Gemini for video prompt generation</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>JavaScript image editing node applies custom transformations before AI generation to control visual style</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>Batch loop with merge nodes ensures all product variants are processed and outputs recombined correctly</span></div>
+        <div class="wh"><div class="wh-dot" style="background:var(--coral)"></div><span>Metadata is carried through every node and written back with the final outputs for downstream use</span></div>
+      </div>
+      <div class="integrations">
+        <span class="int-badge"><span class="int-dot" style="background:var(--coral)"></span>OpenAI / DALL-E</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--purple)"></span>Google Gemini</span>
+        <span class="int-badge"><span class="int-dot" style="background:var(--teal)"></span>HTTP APIs</span>
+      </div>
+      <div class="wf-stack">
+        <span class="ws">DALL-E</span><span class="ws">Gemini</span><span class="ws">OpenAI</span>
+        <span class="ws">Image Editing</span><span class="ws">Batch Processing</span><span class="ws">JavaScript</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="stag">Related Skills</div>
+  <h2 class="stitle">Data engineering and cloud AI context</h2>
+  <p class="ssub">These automation workflows sit on top of six years of AWS cloud engineering and data pipeline experience. Here is the broader technical foundation they connect to.</p>
+
+  <div class="sk-grid">
+    <div class="sk-card sa fu">
+      <div class="sk-hd">
+        <div class="sk-ic" style="background:var(--teal)">AI</div>
+        <div><div class="sk-title">AI and Automation Stack</div><div class="sk-sub">LLMs · Agents · RAG</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">n8n</span><span class="tag">LangGraph</span><span class="tag">LangChain</span>
+        <span class="tag">LlamaIndex</span><span class="tag">CrewAI</span><span class="tag">MCP</span>
+        <span class="tag">OpenAI GPT-4</span><span class="tag">Google Gemini</span>
+        <span class="tag">Anthropic Claude</span><span class="tag">Amazon Bedrock</span>
+        <span class="tag">Ollama / Llama 3</span><span class="tag">RAG Pipelines</span>
+        <span class="tag">PGVector</span><span class="tag">Pinecone</span>
+        <span class="tag">Prompt Engineering</span><span class="tag">LLM-as-Judge</span>
+      </div>
+    </div>
+
+    <div class="sk-card sb fu">
+      <div class="sk-hd">
+        <div class="sk-ic" style="background:var(--cyan)">AWS</div>
+        <div><div class="sk-title">AWS Cloud and AI Services</div><div class="sk-sub">Bedrock · Lambda · ECS</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Amazon Bedrock</span><span class="tag">SageMaker</span>
+        <span class="tag">Lambda</span><span class="tag">ECS / ECR</span>
+        <span class="tag">S3</span><span class="tag">DynamoDB</span>
+        <span class="tag">EventBridge</span><span class="tag">CloudWatch</span>
+        <span class="tag">AWS myApplication</span>
+        <span class="tag">Kendra</span><span class="tag">Comprehend Medical</span>
+        <span class="tag">Bedrock Agents</span>
+      </div>
+    </div>
+
+    <div class="sk-card sc fu">
+      <div class="sk-hd">
+        <div class="sk-ic" style="background:var(--amber)">ETL</div>
+        <div><div class="sk-title">Data Engineering</div><div class="sk-sub">Pipelines · Lakehouse · Spark</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Azure Databricks</span><span class="tag">PySpark</span>
+        <span class="tag">Delta Lake</span><span class="tag">ETL / ELT</span>
+        <span class="tag">Azure Data Factory</span>
+        <span class="tag">Bronze-Silver-Gold</span>
+        <span class="tag">PostgreSQL</span><span class="tag">CDC Processing</span>
+        <span class="tag">Streamlit</span><span class="tag">Power BI</span>
+      </div>
+    </div>
+
+    <div class="sk-card sd fu">
+      <div class="sk-hd">
+        <div class="sk-ic" style="background:var(--purple)">IaC</div>
+        <div><div class="sk-title">DevOps and Infrastructure</div><div class="sk-sub">Terraform · Docker · CI/CD</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag">Terraform</span><span class="tag">CloudFormation</span>
+        <span class="tag">Docker / Dockerfile</span>
+        <span class="tag">GitHub Actions</span><span class="tag">Jenkins</span>
+        <span class="tag">IAM / SCP</span><span class="tag">HIPAA</span>
+        <span class="tag">Logz.io</span><span class="tag">Python</span><span class="tag">Bash</span>
+        <span class="tag">REST / GraphQL</span><span class="tag">Webhooks</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="stag" style="justify-content:center">Get in Touch</div>
+    <h2 class="stitle">Let's build something</h2>
+    <p>Open to mid-level, senior, staff, and full-time consultant roles in AI automation, platform engineering, cloud, and data. If you have a workflow problem that needs solving, I am interested in hearing about it.</p>
+    <div class="contact-links">
+      <a href="../index.html" class="cl main">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Full Portfolio
+      </a>
+      <a href="https://github.com/lope-dev" target="_blank" rel="noopener" class="cl gh">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="mailto:tolumalkon@gmail.com" class="cl email">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        tolumalkon@gmail.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="f-name">Hope Ogungbemi</span>
+  <p>n8n Automation Portfolio &middot; 2025</p>
+  <a href="../index.html" style="font-size:.74rem;color:var(--text-3);text-decoration:none;">&larr; Back to main portfolio</a>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive: true });
+
+  document.querySelectorAll('section[id]').forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+          const l = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if (l) l.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' }).observe(s);
+  });
+
+  const phrases = [
+    'n8n Workflow Architect · 11 Production Workflows',
+    'Agentic AI Pipelines · LLMs + Real Integrations',
+    'RAG · Multi-Agent · Business Process Automation',
+    'AWS Cloud + Data Engineering · 6 Years Production',
+  ];
+  let pi = 0, ci = 0, del = false;
+  const te = document.getElementById('heroTyped');
+  function typeLoop() {
+    const p = phrases[pi];
+    del ? ci-- : ci++;
+    te.innerHTML = p.slice(0, ci) + '<span class="cursor"></span>';
+    if (!del && ci === p.length) { del = true; setTimeout(typeLoop, 2200); return; }
+    if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
+    setTimeout(typeLoop, del ? 22 : 48);
+  }
+  typeLoop();
+
+  document.querySelectorAll('.fu').forEach(el => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.08 }).observe(el);
+  });
+
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const target = parseInt(el.dataset.target);
+        const sfx = '+';
+        let n = 0; const step = Math.max(target / 36, 1);
+        const t = setInterval(() => {
+          n = Math.min(n + step, target);
+          el.textContent = Math.floor(n) + (n >= target ? sfx : '');
+          if (n >= target) clearInterval(t);
+        }, 26);
+      });
+    }, { threshold: 0.5 }).observe(el);
+  });
+</script>
+</body>
+</html>
